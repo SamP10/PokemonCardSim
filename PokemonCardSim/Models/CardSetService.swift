@@ -13,7 +13,7 @@ class CardSetService: ObservableObject {
     @Published var sets: [PokemonCardSet] = []
     @Published var isLoading: Bool = true;
 
-    func fetchPokemonCards() async {
+    func fetchCardSets() async {
         let urlString = "https://api.pokemontcg.io/v2/sets"
         let apiKey = ProcessInfo.processInfo.environment["apiKey"]
 

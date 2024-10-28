@@ -22,10 +22,10 @@ struct ImageView: View {
         Image(uiImage: uiImage)
             .resizable()
             .scaledToFit()
-            .frame(maxWidth: 230)
+            .frame(maxWidth: 200)
             .offset(self.offset)
             .onTapGesture {
-                self.offset = CGSize(width: 200, height: 0)
+                self.offset = CGSize(width: 250, height: 0)
                 self.zindex = 1
             }
             .animation(.bouncy, value: offset)
