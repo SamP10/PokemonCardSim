@@ -11,7 +11,7 @@ import SwiftUI
 struct PokemonCardSimApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PokemonCardSetView()
         }
     }
 }
