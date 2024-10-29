@@ -25,6 +25,10 @@ class PokemonCardService: ObservableObject {
     }
 
     func fetchPokemonCards() async {
+        if(!cards.isEmpty) {
+            return;
+        }
+        
         let apiKey = ProcessInfo.processInfo.environment["apiKey"]
         let urlString = "https://api.pokemontcg.io/v2/cards?q=set.id:\"\(setId)\""
 

@@ -13,11 +13,19 @@ class ImageService: ObservableObject {
     @Published var isLoading: Bool = true
     
     public func loadImages(cards: [PokemonCard]) async {
+        if(!cardByImage.isEmpty) {
+            return;
+        }
+        
         let maxConcurrentTasks = 1
         
         await withTaskGroup(of: Void.self) { taskGroup in
             var currentBatch: [PokemonCard] = []
             for card in cards {
+                if(cardByImage.keys.contains(card)) {
+                    continue;
+                }
+                
                 currentBatch.append(card)
                 
                 if currentBatch.count == maxConcurrentTasks {

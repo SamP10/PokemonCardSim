@@ -16,8 +16,8 @@ struct CardSetView: View {
     @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
     @State private var cardPack: [PokemonCard] = []
+    @State private var packID = UUID()
     @State private var setId: String;
-    @State private var shouldLoad: Bool = false;
     
     init(setId: String) {
         self.setId = setId;
@@ -26,12 +26,12 @@ struct CardSetView: View {
 
     var body: some View {
         VStack{
-            if(self.cardService.isLoading || self.imageService.isLoading) && self.shouldLoad {
+            if(self.cardService.isLoading || self.imageService.isLoading) {
                 ProgressView()
                     .frame(width: 50, height: 50)
             } else {
                 ZStack{
-                    ForEach(self.cardPack.reversed()) { card in
+                    ForEach(self.cardPack.reversed(), id: \.id) { card in
                         if let loadedImage = self.imageService.cardByImage[card] {
                             ImageView(uiImage: loadedImage)
                         } else {
@@ -52,14 +52,15 @@ struct CardSetView: View {
             }
         }
         .onAppear() {
-            if !self.shouldLoad {
-                self.shouldLoad = true
-                Task {
-                    await self.cardService.fetchPokemonCards()
-                    await self.imageService.loadImages(cards: self.cardService.cards)
-                    DispatchQueue.main.async {
-                        self.cardPack = packService.getRandomPack(cardsByRarity: cardService.cardsByRarity);
-                    }
+            Task {
+                await self.cardService.fetchPokemonCards()
+                await self.imageService.loadImages(cards: self.cardService.cards)
+                print(self.cardService.isLoading || self.imageService.isLoading)
+                
+                DispatchQueue.main.async {
+                    self.cardPack = []
+                    self.cardPack = packService.getRandomPack(cardsByRarity: cardService.cardsByRarity)
+                    self.packID = UUID()
                 }
             }
         }
