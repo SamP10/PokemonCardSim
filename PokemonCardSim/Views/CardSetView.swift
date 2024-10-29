@@ -16,7 +16,6 @@ struct CardSetView: View {
     @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
     @State private var cardPack: [PokemonCard] = []
-    @State private var packID = UUID()
     @State private var setId: String;
     
     init(setId: String) {
@@ -33,7 +32,7 @@ struct CardSetView: View {
                 ZStack{
                     ForEach(self.cardPack.reversed(), id: \.id) { card in
                         if let loadedImage = self.imageService.cardByImage[card] {
-                            ImageView(uiImage: loadedImage)
+                            CardImageView(uiImage: loadedImage)
                         } else {
                             Image(systemName: "photo")
                                 .resizable()
@@ -55,12 +54,9 @@ struct CardSetView: View {
             Task {
                 await self.cardService.fetchPokemonCards()
                 await self.imageService.loadImages(cards: self.cardService.cards)
-                print(self.cardService.isLoading || self.imageService.isLoading)
                 
                 DispatchQueue.main.async {
-                    self.cardPack = []
                     self.cardPack = packService.getRandomPack(cardsByRarity: cardService.cardsByRarity)
-                    self.packID = UUID()
                 }
             }
         }
