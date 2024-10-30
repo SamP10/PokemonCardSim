@@ -14,57 +14,51 @@ class RandomPackService: ObservableObject {
         var pack: Pack = []
         
         for rarity in cardsByRarity.keys {
-            if(pack.count == 10) {
+            let numberOfCardsInPack = pack.count;
+            
+            if(numberOfCardsInPack >= 10) {
                 break;
             }
             
             switch rarity {
             case cardRarity.common:
-                pack.append(
-                    contentsOf: self.getRandomCards(
-                        numberOfCards: 4,
-                        cards: cardsByRarity[cardRarity.common]!
-                    )
+                let numberOfCards = 5;
+                self.getRandomCards(
+                    numberOfCards: numberOfCards,
+                    cards: cardsByRarity[cardRarity.common]!,
+                    pack: &pack
                 )
             case cardRarity.uncommon:
-                pack.append(
-                    contentsOf: self.getRandomCards(
-                        numberOfCards: 3,
-                        cards: cardsByRarity[cardRarity.uncommon]!
-                    )
-                )
-            case cardRarity.rare:
-                pack.append(
-                    contentsOf: self.getRandomCards(
-                        numberOfCards: 2,
-                        cards: cardsByRarity[cardRarity.rare]!
-                    )
-                )
-            case cardRarity.rareHolo:
-                pack.append(
-                    contentsOf: self.getRandomCards(
-                        numberOfCards: 1,
-                        cards: cardsByRarity[cardRarity.rareHolo]!
-                    )
+                let numberOfCards = 4;
+                self.getRandomCards(
+                    numberOfCards: numberOfCards,
+                    cards: cardsByRarity[cardRarity.uncommon]!,
+                    pack: &pack
                 )
             default:
-                continue;
+                var cardRarities: [cardRarity] = Array(cardsByRarity.keys)
+                cardRarities.removeAll { value in
+                    return value == cardRarity.common || value == cardRarity.uncommon
+                }
+                self.getRandomCards(
+                    numberOfCards: 1,
+                    cards: cardsByRarity[cardRarities.randomElement()!]!,
+                    pack: &pack
+                )
             }
         }
-        
         return pack
     }
     
-    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard]) -> [PokemonCard] {
-        var cardsToReturn: [PokemonCard]  = []
-        
-        if(cards.isEmpty) {
-            return cardsToReturn
-        }
-        
+    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard], pack: inout Pack) {
         for _ in 1...numberOfCards {
-            cardsToReturn.append(cards.randomElement()!)
+            var card = cards.randomElement()!;
+            if(pack.contains(card)) {
+                while (pack.contains(card)){
+                    card = cards.randomElement()!
+                }
+            }
+            pack.append(card)
         }
-        return cardsToReturn
     }
 }
