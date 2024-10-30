@@ -13,7 +13,6 @@ struct CardSetView: View {
     @StateObject private var imageService: ImageService = ImageService()
     @StateObject private var packService: RandomPackService = RandomPackService()
     @State private var cardService: PokemonCardService;
-    @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
     @State private var cardPack: [PokemonCard] = []
     @State private var setId: String;
@@ -31,21 +30,7 @@ struct CardSetView: View {
             } else {
                 ZStack{
                     ForEach(self.cardPack.reversed(), id: \.id) { card in
-                        if let loadedImage = self.imageService.cardByImage[card] {
-                            CardImageView(uiImage: loadedImage)
-                        } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: 200)
-                                .offset(self.offset)
-                                .onTapGesture {
-                                    self.offset = CGSize(width: 200, height: 0)
-                                    self.zindex = 1
-                                }
-                                .animation(.bouncy, value: offset)
-                                .zIndex(self.zindex)
-                        }
+                        CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage())
                     }
                 }
             }
