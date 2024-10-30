@@ -12,6 +12,11 @@ import SwiftUI
 class CardSetService: ObservableObject {
     @Published var sets: [PokemonCardSet] = []
     @Published var isLoading: Bool = true;
+    private let session: URLSession
+    
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     func fetchCardSets() async {
         let urlString = "https://api.pokemontcg.io/v2/sets"
@@ -26,7 +31,7 @@ class CardSetService: ObservableObject {
         request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
         
         do {
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await self.session.data(for: request)
             
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {

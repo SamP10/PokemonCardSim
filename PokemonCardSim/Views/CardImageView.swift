@@ -4,11 +4,12 @@
 //
 //  Created by Sam Plant on 22/10/2024.
 //
+
 import SwiftUI
 import Combine
 import UIKit
 
-struct ImageView: View {
+struct CardImageView: View {
     @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
     private var uiImage: UIImage;
