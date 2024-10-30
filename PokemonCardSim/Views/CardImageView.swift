@@ -10,13 +10,15 @@ import Combine
 import UIKit
 
 struct CardImageView: View {
-    @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
+    @State private var zIndex: Double = 0;
     private var uiImage: UIImage;
+    var onTap: (() -> Double);
 
     
-    init(uiImage: UIImage) {
+    init(uiImage: UIImage, onTap: (() -> Double)? = nil) {
         self.uiImage = uiImage
+        self.onTap = (onTap)!;
     }
     
     var body: some View {
@@ -27,9 +29,9 @@ struct CardImageView: View {
             .offset(self.offset)
             .onTapGesture {
                 self.offset = CGSize(width: 250, height: 0)
-                self.zindex = 1
+                self.zIndex = onTap()
             }
             .animation(.bouncy, value: offset)
-            .zIndex(self.zindex)
+            .zIndex(self.zIndex)
     }
 }

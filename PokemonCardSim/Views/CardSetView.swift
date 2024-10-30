@@ -13,9 +13,9 @@ struct CardSetView: View {
     @StateObject private var imageService: ImageService = ImageService()
     @StateObject private var packService: RandomPackService = RandomPackService()
     @State private var cardService: PokemonCardService;
-    @State private var offset = CGSize.zero
     @State private var cardPack: [PokemonCard] = []
     @State private var setId: String;
+    @State private var zIndex: Double = 0;
     
     init(setId: String) {
         self.setId = setId;
@@ -30,7 +30,10 @@ struct CardSetView: View {
             } else {
                 ZStack{
                     ForEach(self.cardPack.reversed(), id: \.id) { card in
-                        CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage())
+                        CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage()){
+                            self.zIndex += 1
+                            return self.zIndex
+                        }
                     }
                 }
             }
