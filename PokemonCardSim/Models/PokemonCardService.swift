@@ -11,31 +11,7 @@ import SwiftUI
 
 class PokemonCardService: ObservableObject {
     @State var setId: String;
-    @Published var cardsByRarity: PokemonCardsByRarity = [
-        cardRarity.amazingRare: [],
-        cardRarity.common: [],
-        cardRarity.LEGEND: [],
-        cardRarity.promo: [],
-        cardRarity.rare: [],
-        cardRarity.rareACE: [],
-        cardRarity.rareBREAK: [],
-        cardRarity.rareHolo: [],
-        cardRarity.rareHoloEX: [],
-        cardRarity.rareHoloGX: [],
-        cardRarity.rareHoloLVX: [],
-        cardRarity.rareHoloStar: [],
-        cardRarity.rareHoloV: [],
-        cardRarity.rareHoloVMAX: [],
-        cardRarity.rarePrime: [],
-        cardRarity.rarePrismStar: [],
-        cardRarity.rareRainbow: [],
-        cardRarity.rareSecret: [],
-        cardRarity.rareShining: [],
-        cardRarity.rareShiny: [],
-        cardRarity.rareShinyGX: [],
-        cardRarity.rareUltra: [],
-        cardRarity.uncommon: []
-    ];
+    @Published var cardsByRarity: PokemonCardsByRarity = [:];
     @Published var cards: [PokemonCard] = []
     @Published var isLoading: Bool = true;
     
@@ -87,55 +63,61 @@ class PokemonCardService: ObservableObject {
         for card in cards {
             switch card.rarity?.lowercased() {
             case "amazing rare":
-                self.cardsByRarity[cardRarity.amazingRare]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.amazingRare)
             case "common":
-                self.cardsByRarity[cardRarity.common]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.common)
             case "legend":
-                self.cardsByRarity[cardRarity.LEGEND]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.LEGEND)
             case "promo":
-                self.cardsByRarity[cardRarity.promo]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.promo)
             case "rare":
-                self.cardsByRarity[cardRarity.rare]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rare)
             case "rare ace":
-                self.cardsByRarity[cardRarity.rareACE]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareACE)
             case "rare break":
-                self.cardsByRarity[cardRarity.rareBREAK]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareBREAK)
             case "rare holo":
-                self.cardsByRarity[cardRarity.rareHolo]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHolo)
             case "rare holo ex":
-                self.cardsByRarity[cardRarity.rareHoloEX]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloEX)
             case "rare holo gx":
-                self.cardsByRarity[cardRarity.rareHoloGX]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloGX)
             case "rare holo lvx":
-                self.cardsByRarity[cardRarity.rareHoloLVX]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloLVX)
             case "rare holo star":
-                self.cardsByRarity[cardRarity.rareHoloStar]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloStar)
             case "rare holo v":
-                self.cardsByRarity[cardRarity.rareHoloV]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloV)
             case "rare holo vmax":
-                self.cardsByRarity[cardRarity.rareHoloVMAX]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareHoloVMAX)
             case "rare prime":
-                self.cardsByRarity[cardRarity.rarePrime]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rarePrime)
             case "rare prism star":
-                self.cardsByRarity[cardRarity.rarePrismStar]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rarePrismStar)
             case "rare rainbow":
-                self.cardsByRarity[cardRarity.rareRainbow]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareRainbow)
             case "rare secret":
-                self.cardsByRarity[cardRarity.rareSecret]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareSecret)
             case "rare shining":
-                self.cardsByRarity[cardRarity.rareShining]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareShining)
             case "rare shiny":
-                self.cardsByRarity[cardRarity.rareShiny]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareShiny)
             case "rare shiny gx":
-                self.cardsByRarity[cardRarity.rareShinyGX]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareShinyGX)
             case "rare ultra":
-                self.cardsByRarity[cardRarity.rareUltra]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.rareUltra)
             case "uncommon":
-                self.cardsByRarity[cardRarity.uncommon]?.append(card)
+                self.addCard(card: card, rarity: cardRarity.uncommon)
             default:
-                self.cardsByRarity[cardRarity.common]?.append(card);
+                self.addCard(card: card, rarity: cardRarity.common)
             }
         }
+    }
+    
+    func addCard(card: PokemonCard, rarity: cardRarity) {
+        self.cardsByRarity[rarity] == nil ?
+            self.cardsByRarity[rarity] = [] :
+            self.cardsByRarity[rarity]?.append(card);
     }
 }
 
