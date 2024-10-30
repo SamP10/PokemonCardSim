@@ -38,7 +38,9 @@ struct CardImageView: View {
                 .gesture(
                         DragGesture()
                             .onChanged { value in
-                                self.rotationOffset = value.translation
+                                if(self.offset == .zero) {
+                                    self.rotationOffset = value.translation
+                                }
                             }
                             .onEnded { _ in
                                 withAnimation(
@@ -62,9 +64,9 @@ struct CardImageView: View {
     }
     
     func offset2Angle(_ isVerticle: Bool = false) -> Angle {
-        let progress = (isVerticle ? self.rotationOffset.height : self.rotationOffset.width) /
+        let degree = (isVerticle ? self.rotationOffset.height : self.rotationOffset.width) /
             (isVerticle ? self.screenSize.height : self.screenSize.width)
-        return .init(degrees: progress * 10)
+        return .init(degrees: degree * 20)
     }
     
     var screenSize: CGSize = {
