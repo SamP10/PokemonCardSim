@@ -12,6 +12,7 @@ import UIKit
 struct CardImageView: View {
     @State private var offset = CGSize.zero
     @State private var zIndex: Double = 0;
+    @State public var isRevealed: Bool = false;
     private var uiImage: UIImage;
     var onTap: (() -> Double);
 
@@ -32,6 +33,7 @@ struct CardImageView: View {
                     withAnimation(.smooth) {
                         self.offset = CGSize(width: 250, height: 0)
                     }
+                    self.isRevealed = true;
                 }
                 .zIndex(self.zIndex)
     }

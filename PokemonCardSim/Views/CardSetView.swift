@@ -21,18 +21,15 @@ struct CardSetView: View {
     }
 
     var body: some View {
-        VStack{
+        ZStack{
+            Image("Background")
+                .resizable()
+                .scaledToFill()
             if(self.cardService.isLoading || self.imageService.isLoading) {
                 ProgressView()
                     .frame(width: 50, height: 50)
             } else {
-                ZStack {
-                    Image("Background")
-                        .resizable()
-                        .scaledToFill()
-                    
-                    PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
-                }
+                PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
             }
         }
         .onAppear() {

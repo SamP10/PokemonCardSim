@@ -16,6 +16,8 @@ struct PackView: View {
     @State private var cardPack: [PokemonCard] = [];
     @State private var zIndex: Double = 0;
     @State private var rotationOffset: CGSize = .zero;
+    @State private var revealedCards: [PokemonCard] = [];
+    @State private var allCardsRevealed: Bool = false;
     
     init(cardsByRarity: PokemonCardsByRarity, imageService: ImageService) {
         self.cardsByRarity = cardsByRarity;
@@ -27,6 +29,12 @@ struct PackView: View {
             ForEach(self.cardPack.reversed(), id: \.id) { card in
                 CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage()){
                     self.zIndex += 1
+                    revealedCards.append(card);
+                    
+                    if(revealedCards.count == self.cardPack.count) {
+                        self.allCardsRevealed = true;
+                    }
+                    
                     return self.zIndex
                 }
             }
@@ -48,7 +56,7 @@ struct PackView: View {
             )
             .rotation3DEffect(
                 self.offset2Angle(),
-                axis: (x: 10, y: 0, z: 2)
+                axis: (x: 1, y: 0, z: 2)
             )
             .rotation3DEffect(
                 self.offset2Angle(true),
