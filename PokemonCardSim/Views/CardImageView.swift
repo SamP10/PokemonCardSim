@@ -33,7 +33,6 @@ struct CardImageView: View {
                         self.offset = CGSize(width: 250, height: 0)
                     }
                 }
-                .shadow(color: Color(red: 0.5, green: 0.5, blue: 0.5, opacity: 0.3), radius: 7.5, x: 2, y: 2)
                 .zIndex(self.zIndex)
     }
 }
