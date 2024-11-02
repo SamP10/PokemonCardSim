@@ -12,10 +12,10 @@ import UIKit
 struct PackSummary: View {
     @State private var imageService: CardImageService;
     private var pack: [PokemonCard];
-    @State private var totalAmount: Double;
+    @State private var totalAmount: String;
     @Binding var showFireworks: Bool;
     
-    init(pack: [PokemonCard], imageService: CardImageService, totalAmount: Double, showFireworks: Binding<Bool>) {
+    init(pack: [PokemonCard], imageService: CardImageService, totalAmount: String, showFireworks: Binding<Bool>) {
         self.pack = pack;
         self.imageService = imageService;
         self.totalAmount = totalAmount
@@ -30,21 +30,20 @@ struct PackSummary: View {
                             return 0
                         }.frame(alignment: .center)
                         Text(String(card.rarity ?? "Unknown"))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.white)
                         Text(String(card.cardmarket.prices.averageSellPrice)+"$")
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.white)
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 9)
-                            .fill(.white)
+                            .fill(.gray)
                     )
-                    .padding()
                 }
             
-            Text(String(self.totalAmount) + "$")
+            Text(self.totalAmount + "$")
                 .background(
                     RoundedRectangle(cornerRadius: 9)
-                        .fill(.white)
+                        .fill(.gray)
                 )
                 .padding()
                 .onAppear {

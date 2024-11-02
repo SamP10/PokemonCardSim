@@ -16,10 +16,7 @@ struct PokemonCardSetView: View {
     var body: some View {
         VStack{
             if(self.cardSetService.isLoading || self.setImageService.isLoading) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
-                    .padding()
-                    .background(.white)
+                RotatingImageView(imageName: "Pokeball", size: 50)
             } else {
                 NavigationStack {
                     List {
