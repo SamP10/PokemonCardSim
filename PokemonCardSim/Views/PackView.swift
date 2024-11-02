@@ -22,18 +22,7 @@ struct PackView: View {
                 PackOpener(pack: self.cardPack, imageService: self.imageService, allCardsRevealed: $allCardsRevealed)
             } else {
                 VStack {
-                    PackSummary(pack: self.cardPack, imageService: self.imageService)
-                        .frame(alignment: .center)
-                    
-                    Text(String(packService.totalAmount) + "$")
-                        .background(
-                            RoundedRectangle(cornerRadius: 9)
-                                .fill(.white)
-                        )
-                        .padding()
-                        .onAppear {
-                            showFireworks = true;
-                        }
+                    PackSummary(pack: self.cardPack, imageService: self.imageService, totalAmount: self.packService.totalAmount, showFireworks: $showFireworks)
                 }
             }
         }

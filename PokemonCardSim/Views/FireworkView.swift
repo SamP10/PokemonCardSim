@@ -17,7 +17,7 @@ struct FireworkView: UIViewRepresentable {
         particle.emissionRange = .pi * 2
         particle.scale = 0.1
         particle.scaleRange = 0.2
-        particle.color = UIColor.systemPink.cgColor
+        particle.color = randomCGColor()
         particle.contents = UIImage(systemName: "sparkle")?.cgImage
         
         emitter.emitterCells = [particle]
@@ -31,4 +31,13 @@ struct FireworkView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIView, context: Context) {}
+    
+    func randomCGColor() -> CGColor {
+        CGColor(
+            red: CGFloat.random(in: 0...1),
+            green: CGFloat.random(in: 0...1),
+            blue: CGFloat.random(in: 0...1),
+            alpha: 1.0
+        )
+    }
 }

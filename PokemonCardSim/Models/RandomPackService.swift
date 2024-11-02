@@ -53,7 +53,7 @@ class RandomPackService: ObservableObject {
         return pack
     }
     
-    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard], pack: inout Pack) {
+    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard], pack: inout Pack) -> Void {
         for _ in 1...numberOfCards {
             var card = cards.randomElement()!;
             if(pack.contains(card)) {

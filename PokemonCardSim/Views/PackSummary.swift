@@ -12,10 +12,14 @@ import UIKit
 struct PackSummary: View {
     @State private var imageService: ImageService;
     private var pack: [PokemonCard];
+    @State private var totalAmount: Double;
+    @Binding var showFireworks: Bool;
     
-    init(pack: [PokemonCard], imageService: ImageService) {
+    init(pack: [PokemonCard], imageService: ImageService, totalAmount: Double, showFireworks: Binding<Bool>) {
         self.pack = pack;
         self.imageService = imageService;
+        self.totalAmount = totalAmount
+        self._showFireworks = showFireworks
     }
 
     var body: some View {
@@ -35,6 +39,16 @@ struct PackSummary: View {
                             .fill(.white)
                     )
                     .padding()
+                }
+            
+            Text(String(self.totalAmount) + "$")
+                .background(
+                    RoundedRectangle(cornerRadius: 9)
+                        .fill(.white)
+                )
+                .padding()
+                .onAppear {
+                    self.showFireworks = true;
                 }
         }
     }
