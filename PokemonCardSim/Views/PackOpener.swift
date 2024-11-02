@@ -10,7 +10,7 @@ import CoreData
 import UIKit
 
 struct PackOpener: View {
-    @State private var imageService: ImageService;
+    @State private var imageService: CardImageService;
     @State private var cardPack: [PokemonCard] = [];
     @State private var zIndex: Double = 0;
     @State private var rotationOffset: CGSize = .zero;
@@ -18,7 +18,7 @@ struct PackOpener: View {
     @Binding var allCardsRevealed: Bool;
     private var pack: [PokemonCard];
     
-    init(pack: [PokemonCard], imageService: ImageService, allCardsRevealed: Binding<Bool>) {
+    init(pack: [PokemonCard], imageService: CardImageService, allCardsRevealed: Binding<Bool>) {
         self.pack = pack;
         self.imageService = imageService;
         self._allCardsRevealed = allCardsRevealed;

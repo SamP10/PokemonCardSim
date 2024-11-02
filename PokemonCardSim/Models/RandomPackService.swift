@@ -9,7 +9,7 @@ import SwiftUI
 
 class RandomPackService: ObservableObject {
     typealias Pack = [PokemonCard];
-    @Published var totalAmount: Double = 0.00;
+    @Published var totalAmount: String = "";
     
     public func getRandomPack(cardsByRarity: PokemonCardsByRarity) -> Pack {
         var pack: Pack = []
@@ -54,9 +54,10 @@ class RandomPackService: ObservableObject {
     }
     
     private func calculateTotal(pack: Pack) -> Void {
-        self.totalAmount = 0.00
+        var total: Double = 0.00
         for card in pack {
-            self.totalAmount += card.cardmarket.prices.averageSellPrice
+            total += card.cardmarket.prices.averageSellPrice
         }
+        self.totalAmount = String(format: "%.2f", total)
     }
 }

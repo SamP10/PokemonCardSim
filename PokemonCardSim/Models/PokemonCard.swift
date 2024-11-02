@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
-import UIKit
 
 struct PokemonCard: Identifiable, Decodable, Equatable, Hashable  {
     public var id: String

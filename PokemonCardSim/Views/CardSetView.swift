@@ -11,7 +11,7 @@ import UIKit
 import SwiftUI
 
 struct CardSetView: View {
-    @StateObject private var imageService: ImageService = ImageService()
+    @StateObject private var imageService: CardImageService = CardImageService()
     @State private var cardService: PokemonCardService;
     @State private var cardPack: [PokemonCard] = []
     @State private var setId: String;
@@ -22,23 +22,22 @@ struct CardSetView: View {
     }
 
     var body: some View {
-        ZStack{
-            Image("Background")
-                .resizable()
-                .scaledToFill()
-                .offset(x:-10, y:-1)
-            if(self.cardService.isLoading || self.imageService.isLoading) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 9)
-                            .fill(.white)
-                    )
-            } else {
-                PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
+            VStack{
+                if(self.cardService.isLoading || self.imageService.isLoading) {
+                    RotatingImageView(imageName: "Pokeball", size: 50)
+                } else {
+                    ZStack{
+                        Image("Background")
+                            .resizable()
+                            .scaledToFill()
+                            .fixedSize()
+                            .offset(x:5)
+                            .zIndex(0)
+                            .ignoresSafeArea()
+                        PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
+                    }
+                }
             }
-        }
         .onAppear() {
             Task {
                 await self.cardService.fetchPokemonCards()
