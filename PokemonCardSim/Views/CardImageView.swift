@@ -10,26 +10,32 @@ import Combine
 import UIKit
 
 struct CardImageView: View {
-    @State private var zindex: Double = 0;
     @State private var offset = CGSize.zero
+    @State private var zIndex: Double = 0;
+    @State public var isRevealed: Bool = false;
+    @State private var isPortrait = UIDevice.current.orientation.isPortrait;
     private var uiImage: UIImage;
+    var onTap: (() -> Double);
 
     
-    init(uiImage: UIImage) {
+    init(uiImage: UIImage, onTap: (() -> Double)? = nil) {
         self.uiImage = uiImage
+        self.onTap = (onTap)!;
     }
     
     var body: some View {
-        Image(uiImage: uiImage)
-            .resizable()
-            .scaledToFit()
-            .frame(maxWidth: 200)
-            .offset(self.offset)
-            .onTapGesture {
-                self.offset = CGSize(width: 250, height: 0)
-                self.zindex = 1
-            }
-            .animation(.bouncy, value: offset)
-            .zIndex(self.zindex)
+            Image(uiImage: uiImage)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: self.isPortrait ? 300 : 200)
+                .offset(self.offset)
+                .onTapGesture {
+                    self.zIndex = onTap()
+                    withAnimation(.smooth) {
+                        self.offset = CGSize(width: self.isPortrait ? 320 : 250, height: 0)
+                    }
+                    self.isRevealed = true;
+                }
+                .zIndex(self.zIndex)
     }
 }

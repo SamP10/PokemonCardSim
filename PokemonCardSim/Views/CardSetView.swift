@@ -8,12 +8,11 @@
 import SwiftUI
 import CoreData
 import UIKit
+import SwiftUI
 
 struct CardSetView: View {
     @StateObject private var imageService: ImageService = ImageService()
-    @StateObject private var packService: RandomPackService = RandomPackService()
     @State private var cardService: PokemonCardService;
-    @State private var offset = CGSize.zero
     @State private var cardPack: [PokemonCard] = []
     @State private var setId: String;
     
@@ -23,26 +22,27 @@ struct CardSetView: View {
     }
 
     var body: some View {
-        VStack{
+        ZStack{
+            Image("Background")
+                .resizable()
+                .scaledToFill()
+                .offset(x:-10, y:-1)
             if(self.cardService.isLoading || self.imageService.isLoading) {
                 ProgressView()
-                    .frame(width: 50, height: 50)
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 9)
+                            .fill(.white)
+                    )
             } else {
-                ZStack{
-                    ForEach(self.cardPack.reversed(), id: \.id) { card in
-                        CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage())
-                    }
-                }
+                PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
             }
         }
         .onAppear() {
             Task {
                 await self.cardService.fetchPokemonCards()
                 await self.imageService.loadImages(cards: self.cardService.cards)
-                
-                DispatchQueue.main.async {
-                    self.cardPack = packService.getRandomPack(cardsByRarity: cardService.cardsByRarity)
-                }
             }
         }
     }

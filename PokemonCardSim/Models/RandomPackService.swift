@@ -9,6 +9,7 @@ import SwiftUI
 
 class RandomPackService: ObservableObject {
     typealias Pack = [PokemonCard];
+    @Published var totalAmount: Double = 0.00;
     
     public func getRandomPack(cardsByRarity: PokemonCardsByRarity) -> Pack {
         var pack: Pack = []
@@ -47,10 +48,12 @@ class RandomPackService: ObservableObject {
                 )
             }
         }
+        
+        calculateTotal(pack: pack);
         return pack
     }
     
-    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard], pack: inout Pack) {
+    private func getRandomCards(numberOfCards: Int, cards: [PokemonCard], pack: inout Pack) -> Void {
         for _ in 1...numberOfCards {
             var card = cards.randomElement()!;
             if(pack.contains(card)) {
@@ -59,6 +62,13 @@ class RandomPackService: ObservableObject {
                 }
             }
             pack.append(card)
+        }
+    }
+    
+    private func calculateTotal(pack: Pack) -> Void {
+        self.totalAmount = 0.00
+        for card in pack {
+            self.totalAmount += card.cardmarket.prices.averageSellPrice
         }
     }
 }
