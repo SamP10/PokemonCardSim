@@ -63,9 +63,6 @@ struct PackOpener: View {
                 axis: (x: 0, y: 1, z: 2)
             )
         }
-        .onAppear() {
-            
-        }
     }
     
     func offset2Angle(_ isVerticle: Bool = false) -> Angle {

@@ -16,7 +16,9 @@ struct PokemonCardSetView: View {
         VStack{
             if(self.cardSetService.isLoading) {
                 ProgressView()
-                    .frame(width: 50, height: 50)
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
+                    .padding()
+                    .background(.white)
             } else {
                 NavigationStack {
                     List {
@@ -39,8 +41,3 @@ struct PokemonCardSetView: View {
         }
     }
 }
-
-#Preview{
-    PokemonCardSetView()
-}
-

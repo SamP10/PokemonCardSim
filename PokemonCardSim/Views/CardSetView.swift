@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import UIKit
+import SwiftUI
 
 struct CardSetView: View {
     @StateObject private var imageService: ImageService = ImageService()
@@ -25,9 +26,15 @@ struct CardSetView: View {
             Image("Background")
                 .resizable()
                 .scaledToFill()
+                .offset(x:-10, y:-1)
             if(self.cardService.isLoading || self.imageService.isLoading) {
                 ProgressView()
-                    .frame(width: 50, height: 50)
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 9)
+                            .fill(.white)
+                    )
             } else {
                 PackView(cardsByRarity: cardService.cardsByRarity, imageService: imageService)
             }
