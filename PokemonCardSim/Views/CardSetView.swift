@@ -11,7 +11,7 @@ import UIKit
 import SwiftUI
 
 struct CardSetView: View {
-    @StateObject private var imageService: ImageService = ImageService()
+    @StateObject private var imageService: CardImageService = CardImageService()
     @State private var cardService: PokemonCardService;
     @State private var cardPack: [PokemonCard] = []
     @State private var setId: String;

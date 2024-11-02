@@ -3,7 +3,7 @@ import UIKit
 
 struct PackView: View {
     @StateObject private var packService: RandomPackService = RandomPackService()
-    @State private var imageService: ImageService
+    @State private var imageService: CardImageService
     @State private var cardsByRarity: PokemonCardsByRarity
     @State private var cardPack: [PokemonCard] = []
     @State private var zIndex: Double = 0
@@ -11,7 +11,7 @@ struct PackView: View {
     @State private var allCardsRevealed: Bool = false
     @State private var showFireworks: Bool = false
     
-    init(cardsByRarity: PokemonCardsByRarity, imageService: ImageService) {
+    init(cardsByRarity: PokemonCardsByRarity, imageService: CardImageService) {
         self.cardsByRarity = cardsByRarity
         self.imageService = imageService
     }

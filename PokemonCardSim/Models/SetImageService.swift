@@ -8,28 +8,28 @@
 import SwiftUI
 import UIKit
 
-class ImageService: ObservableObject {
-    @Published var cardByImage: [PokemonCard: UIImage] = [:]
+class SetImageService: ObservableObject {
+    @Published var setByImage: [PokemonCardSet: UIImage] = [:]
     @Published var isLoading: Bool = true
     
-    public func loadImages(cards: [PokemonCard]) async {
-        if(!cardByImage.isEmpty) {
+    public func loadImages(cardSets: [PokemonCardSet]) async {
+        if(!setByImage.isEmpty) {
             return;
         }
         
         let maxConcurrentTasks = 1
         
         await withTaskGroup(of: Void.self) { taskGroup in
-            var currentBatch: [PokemonCard] = []
-            for card in cards {
-                if(cardByImage.keys.contains(card)) {
+            var currentBatch: [PokemonCardSet] = []
+            for cardSet in cardSets {
+                if(setByImage.keys.contains(cardSet)) {
                     continue;
                 }
                 
-                currentBatch.append(card)
+                currentBatch.append(cardSet)
                 
                 if currentBatch.count == maxConcurrentTasks {
-                    await processBatch(taskGroup: &taskGroup, cards: currentBatch)
+                    await processBatch(taskGroup: &taskGroup, cardSets: currentBatch)
                     currentBatch.removeAll()
                     
                     do {
@@ -40,7 +40,7 @@ class ImageService: ObservableObject {
                 }
 
                 if !currentBatch.isEmpty {
-                    await processBatch(taskGroup: &taskGroup, cards: currentBatch)
+                    await processBatch(taskGroup: &taskGroup, cardSets: currentBatch)
                 }
             }
             DispatchQueue.main.async { [weak self] in
@@ -49,16 +49,16 @@ class ImageService: ObservableObject {
         }
     }
     
-    private func processBatch(taskGroup: inout TaskGroup<Void>, cards: [PokemonCard]) async {
-         for card in cards {
+    private func processBatch(taskGroup: inout TaskGroup<Void>, cardSets: [PokemonCardSet]) async {
+         for cardSet in cardSets {
              taskGroup.addTask {
-                 await self.loadImage(card: card)
+                 await self.loadImage(cardSet: cardSet)
              }
          }
      }
 
-    private func loadImage(card: PokemonCard) async {
-        guard let url = URL(string: card.images.large ?? "") else { return }
+    private func loadImage(cardSet: PokemonCardSet) async {
+        guard let url = URL(string: cardSet.images.logo ?? cardSet.images.symbol ?? "") else { return }
         
         let request = URLRequest(url: url)
 
@@ -73,11 +73,11 @@ class ImageService: ObservableObject {
             
             DispatchQueue.main.async { [weak self] in
                 guard let loadedImage = UIImage(data: data) else { return }
-                self?.cardByImage[card] = loadedImage
+                self?.setByImage[cardSet] = loadedImage
             }
             
         } catch {
-            print("Error fetching cards: \(error.localizedDescription)")
+            print("Error fetching images: \(error.localizedDescription)")
         }
     }
 }

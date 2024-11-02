@@ -10,12 +10,12 @@ import CoreData
 import UIKit
 
 struct PackSummary: View {
-    @State private var imageService: ImageService;
+    @State private var imageService: CardImageService;
     private var pack: [PokemonCard];
     @State private var totalAmount: Double;
     @Binding var showFireworks: Bool;
     
-    init(pack: [PokemonCard], imageService: ImageService, totalAmount: Double, showFireworks: Binding<Bool>) {
+    init(pack: [PokemonCard], imageService: CardImageService, totalAmount: Double, showFireworks: Binding<Bool>) {
         self.pack = pack;
         self.imageService = imageService;
         self.totalAmount = totalAmount
