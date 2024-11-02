@@ -13,41 +13,29 @@ class RandomPackService: ObservableObject {
     
     public func getRandomPack(cardsByRarity: PokemonCardsByRarity) -> Pack {
         var pack: Pack = []
+         
+        self.getRandomCards(
+            numberOfCards: 5,
+            cards: cardsByRarity[cardRarity.common] ?? [],
+            pack: &pack
+        )
+    
+        self.getRandomCards(
+            numberOfCards: 4,
+            cards: cardsByRarity[cardRarity.uncommon] ?? [],
+            pack: &pack
+        )
         
-        for rarity in cardsByRarity.keys {
-            let numberOfCardsInPack = pack.count;
-            
-            if(numberOfCardsInPack >= 10) {
-                break;
-            }
-            
-            switch rarity {
-            case cardRarity.common:
-                let numberOfCards = 5;
-                self.getRandomCards(
-                    numberOfCards: numberOfCards,
-                    cards: cardsByRarity[cardRarity.common]!,
-                    pack: &pack
-                )
-            case cardRarity.uncommon:
-                let numberOfCards = 4;
-                self.getRandomCards(
-                    numberOfCards: numberOfCards,
-                    cards: cardsByRarity[cardRarity.uncommon]!,
-                    pack: &pack
-                )
-            default:
-                var cardRarities: [cardRarity] = Array(cardsByRarity.keys)
-                cardRarities.removeAll { value in
-                    return value == cardRarity.common || value == cardRarity.uncommon
-                }
-                self.getRandomCards(
-                    numberOfCards: 1,
-                    cards: cardsByRarity[cardRarities.randomElement()!]!,
-                    pack: &pack
-                )
-            }
+        var cardRarities: [cardRarity] = Array(cardsByRarity.keys)
+        cardRarities.removeAll { value in
+            return value == cardRarity.common || value == cardRarity.uncommon
         }
+        
+        self.getRandomCards(
+            numberOfCards: 1,
+            cards: cardsByRarity[cardRarities.randomElement() ?? cardRarity.uncommon] ?? [],
+            pack: &pack
+        )
         
         calculateTotal(pack: pack);
         return pack
