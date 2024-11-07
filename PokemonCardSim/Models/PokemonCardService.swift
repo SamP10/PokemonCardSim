@@ -82,7 +82,7 @@ class PokemonCardService: ObservableObject {
                 self.addCard(card: card, rarity: cardRarity.rareHoloEX)
             case "rare holo gx":
                 self.addCard(card: card, rarity: cardRarity.rareHoloGX)
-            case "rare holo lvx":
+            case "rare holo lv.x":
                 self.addCard(card: card, rarity: cardRarity.rareHoloLVX)
             case "rare holo star":
                 self.addCard(card: card, rarity: cardRarity.rareHoloStar)

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 import UIKit
 
 struct PackSummary: View {
@@ -24,6 +23,7 @@ struct PackSummary: View {
 
     var body: some View {
         ScrollView {
+            VStack{
                 ForEach(self.pack.reversed(), id: \.id) { card in
                     VStack {
                         CardImageView(uiImage: self.imageService.cardByImage[card] ?? UIImage()){
@@ -40,15 +40,16 @@ struct PackSummary: View {
                     )
                 }
             
-            Text(self.totalAmount + "$")
-                .background(
+               Text("Total Pack worth: \(self.totalAmount)$")
+                   .background(
                     RoundedRectangle(cornerRadius: 9)
-                        .fill(.gray)
-                )
-                .padding()
-                .onAppear {
-                    self.showFireworks = true;
-                }
+                           .fill(.gray)
+                   )
+                   .padding()
+                   .onAppear {
+                       self.showFireworks = true
+                   }
+            }
         }
     }
 }
