@@ -15,7 +15,7 @@ struct RotatingImageView: View {
         Image(imageName)
             .resizable()
             .frame(width: size, height: size)
-            .rotationEffect(.degrees(rotationAngle))
+            .rotationEffect(.degrees(rotationAngle), anchor: .center)
             .onAppear {
                 withAnimation(.linear(duration: 1.5).repeatForever(autoreverses: false)) {
                     self.rotationAngle += 360
