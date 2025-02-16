@@ -6,9 +6,11 @@ Welcome to **Pokémon Card Simulator**! This app simulates the experience of ope
 This is a project using public API's provided by dev.pokemontcg.io. I am in no way affiliated with Pokemon TCG and they reserve all rights to the content provided within this application.
 This project is purely for learning purposes of developing swift applications and is not used commercially.
 
-## Video
+## Demo
+Resolution is rubbish due to Githubs 10Mb Limit 😢
 
-![Full Application](videos/Full-Application.mp4)
+https://github.com/user-attachments/assets/1eac9bc6-7070-4f6b-aca5-91bced2aaaf1
+
 
 ## Features
 
